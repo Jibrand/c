@@ -1,0 +1,389 @@
+---factory---------
+
+public class Main {
+    public static void main(String[] args) {
+        VehicleFactory vehicleFactory = new VehicleFactory();
+
+        Vehicle vehicle = vehicleFactory.getVehicle("Bike");
+        if (vehicle != null) {
+            vehicle.start();
+            vehicle.stop();
+        }
+
+        vehicle = vehicleFactory.getVehicle("Car");
+        if (vehicle != null) {
+            vehicle.start();
+            vehicle.stop();
+        }
+
+        vehicle = vehicleFactory.getVehicle("Truck");
+        if (vehicle != null) {
+            vehicle.start();
+            vehicle.stop();
+        }
+    }
+}
+
+interface Vehicle {
+    void start();
+    void stop();
+}
+
+class Bike implements Vehicle {
+    @Override
+    public void start() {
+        System.out.println("Bike started");
+    }
+
+    @Override
+    public void stop() {
+        System.out.println("Bike stopped");
+    }
+}
+
+class Car implements Vehicle {
+    @Override
+    public void start() {
+        System.out.println("Car started");
+    }
+
+    @Override
+    public void stop() {
+        System.out.println("Car stopped");
+    }
+}
+
+class Truck implements Vehicle {
+    @Override
+    public void start() {
+        System.out.println("Truck started");
+    }
+
+    @Override
+    public void stop() {
+        System.out.println("Truck stopped");
+    }
+}
+
+class VehicleFactory {
+    public Vehicle getVehicle(String name) {
+        if (name.equalsIgnoreCase("Bike")) {
+            return new Bike();
+        } else if (name.equalsIgnoreCase("Car")) {
+            return new Car();
+        } else if (name.equalsIgnoreCase("Truck")) {
+            return new Truck();
+        }
+        System.out.println("Invalid vehicle type!");
+        return null;
+    }
+}
+
+
+---facade---------
+public class Main {
+    public static void main(String[] args) {
+        // Initialize components
+        Light light = new Light();
+        Speaker speaker = new Speaker();
+
+        // Pass components to the Facade
+        Facade f = new Facade(light, speaker);
+
+        // Use the Facade to control components
+        f.start();
+        f.stop();
+    }
+}
+
+class Speaker {
+    public void openSpeaker() {
+        System.out.println("Speaker opened");
+    }
+
+    public void closeSpeaker() {
+        System.out.println("Speaker closed");
+    }
+}
+
+class Light {
+    public void openLight() {
+        System.out.println("Light opened");
+    }
+
+    public void closeLight() {
+        System.out.println("Light closed");
+    }
+}
+
+class Facade {
+    private Light light;
+    private Speaker speaker;
+
+    // Constructor to initialize components
+    public Facade(Light light, Speaker speaker) {
+        this.light = light;
+        this.speaker = speaker;
+    }
+
+    public void start() {
+        light.openLight();
+        speaker.openSpeaker();
+    }
+
+    public void stop() {
+        light.closeLight();
+        speaker.closeSpeaker();
+    }
+}
+
+---template---------
+abstract class Meal {
+    // Abstract methods to be implemented by subclasses
+    public abstract void addIngredients();
+    public abstract void cook();
+
+    // Concrete method for serving
+    public void serve() {
+        System.out.println("Serving the meal");
+    }
+
+    // Template method (final to prevent overriding)
+    public final void makeFood() {
+        addIngredients();
+        cook();
+        serve();
+    }
+}
+
+class Burger extends Meal {
+    @Override
+    public void addIngredients() {
+        System.out.println("Adding ingredients for the Burger");
+    }
+
+    @Override
+    public void cook() {
+        System.out.println("Cooking the Burger");
+    }
+}
+
+class Pizza extends Meal {
+    @Override
+    public void addIngredients() {
+        System.out.println("Adding ingredients for the Pizza");
+    }
+
+    @Override
+    public void cook() {
+        System.out.println("Cooking the Pizza");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a Burger object and prepare food
+        Meal meal = new Burger();
+        meal.makeFood();
+
+        System.out.println();
+
+        // Create a Pizza object and prepare food
+        meal = new Pizza();
+        meal.makeFood();
+    }
+}
+
+
+---Decorator---------
+
+// Component interface
+interface Coffee {
+    String getDescription();
+    double getCost();
+}
+
+// Concrete Component (Basic Coffee)
+class BasicCoffee implements Coffee {
+    @Override
+    public String getDescription() {
+        return "Basic Coffee";
+    }
+
+    @Override
+    public double getCost() {
+        return 50.0; // Base price of coffee
+    }
+}
+
+// Abstract Decorator
+abstract class CoffeeDecorator implements Coffee {
+    protected Coffee coffee; // Composition: wraps the Coffee component
+
+    public CoffeeDecorator(Coffee coffee) {
+        this.coffee = coffee;
+    }
+
+    @Override
+    public String getDescription() {
+        return coffee.getDescription(); // Delegates to the wrapped component
+    }
+
+    @Override
+    public double getCost() {
+        return coffee.getCost(); // Delegates to the wrapped component
+    }
+}
+
+// Concrete Decorators
+class MilkDecorator extends CoffeeDecorator {
+    public MilkDecorator(Coffee coffee) {
+        super(coffee);
+    }
+
+    @Override
+    public String getDescription() {
+        return coffee.getDescription() + ", Milk";
+    }
+
+    @Override
+    public double getCost() {
+        return coffee.getCost() + 10.0; // Adds the cost of milk
+    }
+}
+
+class SugarDecorator extends CoffeeDecorator {
+    public SugarDecorator(Coffee coffee) {
+        super(coffee);
+    }
+
+    @Override
+    public String getDescription() {
+        return coffee.getDescription() + ", Sugar";
+    }
+
+    @Override
+    public double getCost() {
+        return coffee.getCost() + 5.0; // Adds the cost of sugar
+    }
+}
+
+class CaramelDecorator extends CoffeeDecorator {
+    public CaramelDecorator(Coffee coffee) {
+        super(coffee);
+    }
+
+    @Override
+    public String getDescription() {
+        return coffee.getDescription() + ", Caramel";
+    }
+
+    @Override
+    public double getCost() {
+        return coffee.getCost() + 15.0; // Adds the cost of caramel
+    }
+}
+
+// Main Class
+public class Main {
+    public static void main(String[] args) {
+        // Create a basic coffee
+        Coffee coffee = new BasicCoffee();
+        System.out.println(coffee.getDescription() + " -> Cost: " + coffee.getCost());
+
+        // Add milk to the coffee
+        coffee = new MilkDecorator(coffee);
+        System.out.println(coffee.getDescription() + " -> Cost: " + coffee.getCost());
+
+        // Add sugar to the coffee
+        coffee = new SugarDecorator(coffee);
+        System.out.println(coffee.getDescription() + " -> Cost: " + coffee.getCost());
+
+        // Add caramel to the coffee
+        coffee = new CaramelDecorator(coffee);
+        System.out.println(coffee.getDescription() + " -> Cost: " + coffee.getCost());
+    }
+}
+---strategy---------
+
+// Strategy Interface
+interface PaymentStrategy {
+    void pay(double amount);
+}
+
+// Concrete Strategies
+class CreditCardPayment implements PaymentStrategy {
+    private String cardNumber;
+
+    public CreditCardPayment(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid " + amount + " using Credit Card. Card Number: " + cardNumber);
+    }
+}
+
+class PayPalPayment implements PaymentStrategy {
+    private String email;
+
+    public PayPalPayment(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid " + amount + " using PayPal. Email: " + email);
+    }
+}
+
+class BitcoinPayment implements PaymentStrategy {
+    private String walletAddress;
+
+    public BitcoinPayment(String walletAddress) {
+        this.walletAddress = walletAddress;
+    }
+
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid " + amount + " using Bitcoin. Wallet Address: " + walletAddress);
+    }
+}
+
+// Context Class
+class PaymentContext {
+    private PaymentStrategy paymentStrategy;
+
+    // Set strategy at runtime
+    public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
+    public void payAmount(double amount) {
+        if (paymentStrategy == null) {
+            System.out.println("No payment method selected.");
+        } else {
+            paymentStrategy.pay(amount);
+        }
+    }
+}
+
+// Main Class
+public class Main {
+    public static void main(String[] args) {
+        PaymentContext paymentContext = new PaymentContext();
+
+        // Use Credit Card Payment
+        paymentContext.setPaymentStrategy(new CreditCardPayment("1234-5678-9876-5432"));
+        paymentContext.payAmount(250.75);
+
+        // Use PayPal Payment
+        paymentContext.setPaymentStrategy(new PayPalPayment("user@example.com"));
+        paymentContext.payAmount(100.50);
+
+        // Use Bitcoin Payment
+        paymentContext.setPaymentStrategy(new BitcoinPayment("1BitcoinWalletAddress"));
+        paymentContext.payAmount(500.00);
+    }
+}
