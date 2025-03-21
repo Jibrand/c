@@ -1,3 +1,257 @@
+Name Muhammad Jibran
+ID: FA22-BESE-0009
+
+Q1) 
+ 
+Code:
+interface Vehicle 
+{
+   make:string
+   model:string
+year:string
+   start():string
+}
+
+class Car implements   Vehicle
+ {
+   make:string
+   model:string
+   year:string
+
+   constructor(make:string, model:string, year:string) 
+   {
+       this.make =make
+       this.model =model
+       this.year =year
+}
+
+   start():string 
+   {
+       return `${this.make} ${this.model} is starting..`
+}
+
+   drive():string 
+   {
+       return `${this.make} ${this.model} is driving`
+}
+}
+
+const myCar = new Car("Toyota", "Corolla", "2022")
+console.log(myCar.start())
+console.log(myCar.drive())
+
+
+	
+
+
+Q2)
+ 
+Code:
+interface Shape 
+{
+   name:string
+   area():number
+}
+
+class Rectangle implements Shape {
+   name
+   width
+   height
+ constructor(width: number, height: number) 
+   {
+       this.name ="Rectangle"
+       this.width =width
+       this.height =height
+
+}
+
+   area()
+   {
+    return this.width*this.height
+}
+}
+
+class Circle implements Shape 
+{
+   name
+     radius
+
+   constructor(radius: number) 
+   {
+       this.name ="Circle"
+       this.radius =radius
+}
+
+   area() {
+       return 3.14 *this.radius * this.radius
+ }
+}
+
+let myRectangle = new Rectangle(5,10)
+console.log(myRectangle.name + " Area:", myRectangle.area())
+
+let myCircle = new Circle(7)
+console.log(myCircle.name + " Area:", myCircle.area())
+
+Q3)
+ 
+Code:
+function mergeObjects<T,U>(obj1:   T, obj2:   U): T  &   U
+ {
+    return {...obj1,...obj2}
+}
+let person = { name: "Jibran",   age:25}
+let job = { role: "Developer",  company: "MAJU"}
+let merged = mergeObjects(person, job)
+
+
+console.log(merged)  
+
+
+
+Q4)
+ 
+Code:
+function isnumber(value:any): value is number {
+    return typeof value==="number"
+}
+function checkType(value: string  |   number   | boolean) {
+    if (isnumber(value)) {
+        console.log("It's a number:", value)
+    } else if (typeof value === "string") 
+    {
+        console.log("It's a string:", value)
+} else {
+        console.log("It's a boolean:", value)
+ }
+}
+
+checkType(42)  
+checkType("Hello") 
+checkType(true) 
+
+
+
+Q5)
+ 
+Code:
+let students=[
+    { name: "Jibran", score: 85 },
+    { name: "Tameem", score: 92 },
+    { name: "Adnan", score: 78 },
+    { name: "Saad", score: 95 }
+]
+function getTopStudent(students:{name:string, score:   number }[]) {
+    return students.reduce((top, student) => student.score   > top.score ?    student : top)
+}
+let topStudent = getTopStudent(students)
+
+console.log("Top Studet:", topStudent)
+
+let studentResult: [string, number, boolean] = [topStudent.name, topStudent.score, topStudent.score > 50]
+
+console.log("Studnt Tuple:", studentResult)
+
+
+
+Q6)
+ 
+Code:
+enum Days {
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday
+}
+
+function daysUntilWeekend(day: Days): number {
+    if (day >= Days.Saturday) return 0
+    return Days.Saturday - day
+}
+
+console.log("Days until weekend from Monday:", daysUntilWeekend(Days.Monday)) // 5
+console.log("Days until weekend from Friday:", daysUntilWeekend(Days.Friday)) // 1
+console.log("Days until weekend from Sunday:", daysUntilWeekend(Days.Sunday)) // 0
+
+
+
+
+
+
+
+
+
+
+
+
+Q7)
+ 
+
+
+Code:
+interface Book {
+title:string
+author: string
+year: number
+}
+
+    let upcomingBook: Partial   <Book> = {
+    title: "The Future of AI",
+    author: "Jibran dude"
+}
+
+    let completeBook: Book = { ...upcomingBook, year: 2025 } as Book
+
+
+
+console.log("Upcoming Book:", upcomingBook)
+console.log("Complete Book:", completeBook)
+
+q8)
+ 
+Code:
+function Timestamp(target: any, methodName: string, descriptor: PropertyDescriptor) {
+    if (!descriptor || typeof descriptor.value !== "function") 
+        {
+        throw new Error("Timestamp decorator can only be applied to methods.");
+}
+
+    const originalMethod = descriptor.value;
+    
+    descriptor.value = function (...args: any[]) {
+          console.log(`Time: ${new Date().toLocaleTimeString()}`);
+        return originalMethod.apply(this, args);
+};
+
+    return descriptor;  
+}
+
+class Logger {
+    @Timestamp
+
+    log() 
+    {
+          console.log("Logging something...");
+}
+}
+
+
+const logger = new Logger();
+logger.log();
+
+
+
+
+
+
+
+
+
+
+
 ---factory---------
 
 public class Main {
